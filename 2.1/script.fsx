@@ -65,8 +65,16 @@ let route start end' =
     visited.[end']
     |> milestones
 
-// Run
-route "Steamdrift" "Leverstorm"
-|> List.reduce (fun a b -> $"{a},{b}") 
+let printRoute milestone =
+    milestone
+    |> List.reduce (fun a b -> $"{a},{b}") 
+    |> printfn "%s"
 
-// "Steamdrift,Cogburg,Copperhold,Leverstorm"
+// Run 'dotnet fsi 2.1/script.fsx "Steamdrift" "Leverstorm"'
+match fsi.CommandLineArgs with
+| [|_;start;end'|] ->
+    route start end'
+    |> printRoute
+| _ -> printfn "Invalid args: %A" fsi.CommandLineArgs
+
+// route "Steamdrift" "Leverstorm"
